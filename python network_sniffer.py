@@ -23,10 +23,11 @@ def analyze_traffic(packet):
         if decoded_chunk:
             print(f"   [Data Snippet]: {decoded_chunk}")
 
-def initiate_sniffing(target_iface: str):
+def initiate_sniffing(target_ifaces):
     """Initializes the sniffer in stateless mode (store=False) to avoid memory leaks."""
-    print(f"Listening on {target_iface}... (Ctrl+C to abort)")
-    scapy.sniff(iface=target_iface, store=False, prn=analyze_traffic)
+    print(f"Listening on {target_ifaces}... (Ctrl+C to abort)")
+    scapy.sniff(iface=target_ifaces, store=False, prn=analyze_traffic)
 
 if __name__ == "__main__":
-    initiate_sniffing("Ethernet")
+    # Bind to primary active NICs
+    initiate_sniffing(["Ethernet", "Wi-Fi"])
